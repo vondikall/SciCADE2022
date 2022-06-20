@@ -1,8 +1,8 @@
 function main(options)
 % ------------------------- SciCADE2022 LMI code -------------------------
 % Written by Stefania Andersen Aradottir, saa20 (at) hi.is as a
-% supplementary to the poster 'Shortfalls of semidefinite programming when
-% applied to real life mechanical systems'
+% supplementary to the poster 'Shortfalls of semidefinite programming
+% (LMIs) when applied to real life switched mechanical systems'
 %     main(options)
 %     options:
 %       saveFig         [1|0 (0)] Saves all figures as 600p .png
@@ -79,6 +79,10 @@ if ~load_results
         'with the following solvers: sedumi, mosek and sdpt3.\n'])
     m=input('Do you want to continue? Y/N [Y]:','s');
     if m=='N'
+        m=input('Do you want to load results insted? Y/N [Y]:','s');
+        if m=='N'
+            return
+        end
         load_results=1;
     else
         solvers = ["sedumi", "mosek", "sdpt3"];
@@ -102,9 +106,9 @@ if ~load_results
             tmp={'lyap',{i},P,min(eig_P),max(eig_P),max(eig_P)/min(eig_P),max(eqEigs),"Success",test_result};
             results=[results;tmp];
         end
+        fprintf('\n')
+        graphTime(results, saveFig)
     end
-    fprintf('\n')
-    graphTime(results, saveFig)
 else
     load('results.mat')
     graphTime(results, saveFig)
